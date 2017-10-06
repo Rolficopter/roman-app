@@ -37,8 +37,8 @@ const app = {
     },
 
     onJoystickMove: function (evt, data) {
-        const degree = data.angle.degree - 90;
-        const speed = Math.min(data.force, 4) * 25;
+        const degree = Math.floor(data.angle.degree - 90);
+        const speed = Math.floor(Math.min(data.force, 4) * 25);
         if (degree <= 90) {
             if (Math.abs(degree) < 5) {
                 this.transmitMovement(speed, 0);
@@ -51,8 +51,7 @@ const app = {
     },
 
     transmitMovement: function (speed, angle) {
-        console.log("Winkel:" + angle + " Speed: " + speed);
-        document.getElementById("joystick-debug").innerHTML = "Winkel:" + angle + " Speed: " + speed;
+        document.getElementById("joystick-debug").innerHTML = "Kurs:" + angle + "° Geschwindigkeit: " + speed + "%";
     },
 
     // deviceready Event Handler
