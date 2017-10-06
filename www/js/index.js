@@ -51,7 +51,12 @@ const app = {
                 this.transmitMovement(speed, degree);
             }
         } else {
-            this.transmitMovement(0, 0);
+            const invDegree = degree - 180;
+            if (Math.abs(invDegree) < 5) {
+                this.transmitMovement(-speed, 0);
+            } else {
+                this.transmitMovement(-speed, invDegree);
+            }
         }
     },
 
@@ -143,7 +148,7 @@ const app = {
             console.log(data);
         });
 
-        app.intervalId = setInterval(app.sendCommands, 50);
+        app.intervalId = setInterval(app.sendCommands, 250);
     },
 
     sendCommands: function () {
@@ -162,6 +167,7 @@ const app = {
     closePort: function () {
         clearInterval(app.intervalId);
         // if you get a good Bluetooth serial connection:
+        app.clear();
         app.display("Disconnected from: " + app.macAddress);
         // change the button's name:
         connectButton.innerHTML = "Connect";
