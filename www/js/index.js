@@ -16,10 +16,22 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-var app = {
+const app = {
+
+    nippleManager: {},
     // Application Constructor
     initialize: function() {
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+        this.nippleManager = nipplejs.create({
+            zone: document.getElementById("app"),
+            color: "#affe00",
+            mode: "static",
+            position: {
+                top: "50%",
+                left: "50%"
+            },
+            restOpacity: 1
+        });
     },
 
     // deviceready Event Handler
@@ -27,20 +39,9 @@ var app = {
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
     onDeviceReady: function() {
-        this.receivedEvent('deviceready');
+        console.log("Device ready");
     },
 
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
-
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
-
-        console.log('Received Event: ' + id);
-    }
 };
 
 app.initialize();
