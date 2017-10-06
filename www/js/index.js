@@ -40,7 +40,11 @@ const app = {
         const degree = data.angle.degree - 90;
         const speed = Math.min(data.force, 4) * 25;
         if (degree <= 90) {
-            this.transmitMovement(speed, degree);
+            if (Math.abs(degree) < 5) {
+                this.transmitMovement(speed, 0);
+            } else {
+                this.transmitMovement(speed, degree);
+            }
         } else {
             this.transmitMovement(0, 0);
         }
@@ -48,6 +52,7 @@ const app = {
 
     transmitMovement: function (speed, angle) {
         console.log("Winkel:" + angle + " Speed: " + speed);
+        document.getElementById("joystick-debug").innerHTML = "Winkel:" + angle + " Speed: " + speed;
     },
 
     // deviceready Event Handler
