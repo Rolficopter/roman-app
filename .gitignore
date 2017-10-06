@@ -3,3 +3,4 @@ node_modules/
 npm-debug.*
 platforms/android/.gradle/
 platforms/android/CordovaLib/build/
+.idea/
