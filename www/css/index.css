@@ -34,9 +34,15 @@ body {
     width:100%;
 }
 
+#debug {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 #app {
     width: 100vw;
-    height: 100vh;
+    height: 100%;
 }
 
 

@@ -21,7 +21,7 @@ const app = {
     chars: "",
     nippleManager: {},
     // Application Constructor
-    initialize: function() {
+    initialize: function () {
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
         connectButton.addEventListener('touchend', app.manageConnection, false);
         this.nippleManager = nipplejs.create({
@@ -35,6 +35,27 @@ const app = {
             restOpacity: 1
         });
          document.getElementById('app').style.display = "none";
+
+        this.nippleManager.on("move", this.onJoystickMove.bind(this));
+        this.nippleManager.on("end", () => this.transmitMovement(0, 0));
+    },
+
+    onJoystickMove: function (evt, data) {
+        const degree = Math.floor(data.angle.degree - 90);
+        const speed = Math.floor(Math.min(data.force, 4) * 25);
+        if (degree <= 90) {
+            if (Math.abs(degree) < 5) {
+                this.transmitMovement(speed, 0);
+            } else {
+                this.transmitMovement(speed, degree);
+            }
+        } else {
+            this.transmitMovement(0, 0);
+        }
+    },
+
+    transmitMovement: function (speed, angle) {
+        document.getElementById("joystick-debug").innerHTML = "Kurs:" + angle + "° Geschwindigkeit: " + speed + "%";
     },
 
     // deviceready Event Handler
@@ -57,7 +78,6 @@ const app = {
                     el.textContent = results[i].name;
                     el.value = results[i].address;
                     select.appendChild(el);
-                    console.log(results);
                   }
               },
               function(error) {
