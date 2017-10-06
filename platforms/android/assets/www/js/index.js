@@ -20,11 +20,11 @@ const app = {
 
     nippleManager: {},
     // Application Constructor
-    initialize: function() {
+    initialize: function () {
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
         this.nippleManager = nipplejs.create({
             zone: document.getElementById("app"),
-            color: "#affe00",
+            color: "#000",
             mode: "static",
             position: {
                 top: "50%",
@@ -32,13 +32,29 @@ const app = {
             },
             restOpacity: 1
         });
+        this.nippleManager.on("move", this.onJoystickMove.bind(this));
+        this.nippleManager.on("end", () => this.transmitMovement(0, 0));
+    },
+
+    onJoystickMove: function (evt, data) {
+        const degree = data.angle.degree - 90;
+        const speed = Math.min(data.force, 4) * 25;
+        if (degree <= 90) {
+            this.transmitMovement(speed, degree);
+        } else {
+            this.transmitMovement(0, 0);
+        }
+    },
+
+    transmitMovement: function (speed, angle) {
+        console.log("Winkel:" + angle + " Speed: " + speed);
     },
 
     // deviceready Event Handler
     //
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
-    onDeviceReady: function() {
+    onDeviceReady: function () {
         console.log("Device ready");
     },
 
